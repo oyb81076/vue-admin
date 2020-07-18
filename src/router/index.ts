@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Home from '../views/Home.vue';
+import NotFound from '../components/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -11,18 +12,24 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/agent',
+    redirect: '/agent/info/page',
+    component: () => import('@/views/agent/index.vue'),
+    children: [
+      { path: 'info', redirect: 'info/page' },
+      { path: 'info/page', name: 'AgentInfoPage', component: () => import('@/views/agent/AgentInfoPage.vue') },
+      { path: 'info/create', name: 'AgentInfoCreate', component: () => import('@/views/agent/AgentInfoCreate.vue') },
+      { path: 'info/edit/:id', name: 'AgentInfoEdit', component: () => import('@/views/agent/AgentInfoEdit.vue') },
+      { path: 'info/detail/:id', name: 'AgentInfoDetail', component: () => import('@/views/agent/AgentInfoDetail.vue') },
+      { path: 'rank', name: 'AgentRank', component: () => import('@/views/agent/AgentRank.vue') },
+    ],
   },
+  { path: '*', name: 'NotFound', component: NotFound },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode: 'hash',
+  // base: process.env.BASE_URL,
   routes,
 });
 

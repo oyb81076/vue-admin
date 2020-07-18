@@ -1,32 +1,24 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div class="app">
+    <Login v-if="!authorized" />
+    <template v-else>
+      <Topbar />
+      <router-view />
+    </template>
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue';
+import Topbar from './views/layout/Topbar.vue';
+import Login from './components/Login.vue';
+import store from './store';
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+export default Vue.extend({
+  components: { Topbar, Login },
+  computed: {
+    authorized() {
+      return store.state.auth.id !== 0;
+    },
+  },
+});
+</script>
