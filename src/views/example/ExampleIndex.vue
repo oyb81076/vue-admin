@@ -8,10 +8,10 @@
       :default-active="activeIndex"
       @select="handleSelect"
       >
-      <el-menu-item index="/agent/info">
+      <el-menu-item index="/example/data">
         <span slot="title">info</span>
       </el-menu-item>
-      <el-menu-item index="/agent/rank">
+      <el-menu-item index="/example/single">
         <span slot="title">rank</span>
       </el-menu-item>
     </el-menu>

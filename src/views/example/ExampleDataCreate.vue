@@ -1,14 +1,11 @@
 <template>
   <div>
-    <h1>AgentEdit {{id}}</h1>
+    <h1>Example Data Create</h1>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 
 export default Vue.extend({
-  computed: {
-    id() { return this.$route.params.id; },
-  },
 });
 </script>

@@ -2,6 +2,7 @@
   <header class="topbar">
     <router-link to="/" exact class="brand">Brand</router-link>
     <div class="links">
+      <router-link to="/example">Example</router-link>
       <router-link to="/agent">Agent</router-link>
       <router-link to="/product">Product</router-link>
       <router-link to="/code">Code</router-link>
@@ -12,12 +13,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import store from '@/store';
+import { logout } from '@/store/authStore';
 
 export default Vue.extend({
   methods: {
     logout() {
-      store.commit('logout');
+      logout();
     },
   },
 });

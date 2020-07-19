@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Agent Rank Settings</h1>
+    <h1>Example Single</h1>
   </div>
 </template>

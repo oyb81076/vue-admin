@@ -10,14 +10,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import Topbar from './views/layout/Topbar.vue';
-import Login from './components/Login.vue';
-import store from './store';
+import Login from './components/Login';
+import { state } from './store/authStore';
 
 export default Vue.extend({
   components: { Topbar, Login },
   computed: {
     authorized() {
-      return store.state.auth.id !== 0;
+      return state.id !== '';
     },
   },
 });

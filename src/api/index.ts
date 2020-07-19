@@ -1,2 +1,1 @@
-/* eslint-disable import/prefer-default-export */
-export { fetchUser, fetchUserPage } from './user';
+export { fetchManager, fetchManagerPage, fetchManagers } from './manager';
