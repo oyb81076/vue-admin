@@ -15,19 +15,10 @@ export const state = Vue.observable<State>({
   token: '',
   exp: 0,
 });
-export function login(token: string | null): void {
+export function login(token: string): void {
   if (!token) { return; }
-  try {
-    const { id, exp, role } = JSON.parse(atob(token.split('.')[1])) as Omit<State, 'token'>;
-    if (Date.now() / 1000 < exp) {
-      state.id = id;
-      state.exp = exp;
-      state.role = role;
-      state.token = token;
-    }
-  } catch (e) {
-    console.error(e);
-  }
+  setState(token);
+  localStorage.setItem(KEY, token);
 }
 export function logout() {
   state.id = '';
@@ -36,4 +27,20 @@ export function logout() {
   state.exp = 0;
   localStorage.removeItem(KEY);
 }
-login(localStorage.getItem(KEY));
+
+try {
+  setState(localStorage.getItem(KEY));
+} catch (e) {
+  console.error(e);
+}
+
+function setState(token: string | null) {
+  if (!token) { return; }
+  const { id, exp, role } = JSON.parse(atob(token.split('.')[1])) as Omit<State, 'token'>;
+  if (Date.now() / 1000 < exp) {
+    state.id = id;
+    state.exp = exp;
+    state.role = role;
+    state.token = token;
+  }
+}

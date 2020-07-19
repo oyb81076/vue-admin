@@ -11,6 +11,7 @@ const routeConfig: RouteConfig = {
     {
       path: 'data/edit/:id',
       name: 'ExampleDataEdit',
+      props: true,
       component: () => import('./ExampleDataEdit.vue'),
     },
     {
