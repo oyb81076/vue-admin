@@ -19,7 +19,7 @@
 </style>
 <script lang="ts">
 import Vue from 'vue';
-
+// @deprecate
 export default Vue.extend({
   props: {
     back: {

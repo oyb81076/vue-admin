@@ -54,7 +54,12 @@ export default Vue.extend({
         this.loading = true;
         const res = await request(this.method, this.url, this.payload, this.credentials);
         this.loading = false;
-        await this.$alert('操作成功');
+        this.$notify({
+          showClose: true,
+          type: 'success',
+          title: '提示',
+          message: this.successMessage,
+        });
         this.$emit('success', res);
       } catch (e) {
         this.loading = false;

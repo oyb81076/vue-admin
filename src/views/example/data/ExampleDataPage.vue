@@ -34,8 +34,8 @@
           <el-link type="primary" @click="$router.push(`edit/${scope.row.id}`)">编辑</el-link>
           <button-delete :url="'/api/example/'+ scope.row.id" @success="$page.reload" link />
           <button-request
-            :url="`/api/example/${scope.row.id}`"
             method="post"
+            :url="`/api/example/${scope.row.id}`"
             :payload="{disabled: false}"
             confirm-message="是否确认要上架?"
             success-message="上传成功"
@@ -43,10 +43,10 @@
             link
           >上架</button-request>
           <button-request
-            :url="`/api/example/${scope.row.id}`"
             method="post"
+            :url="`/api/example/${scope.row.id}`"
             :payload="{disabled: true}"
-            confirm-message="是否确认要上架?"
+            confirm-message="是否确认要下架?"
             success-message="上传成功"
             @success="$page.reload"
             link
