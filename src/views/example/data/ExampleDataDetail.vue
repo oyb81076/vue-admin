@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Example Data Detail</h1>
+    <el-page-header @back="$router.back()" content="Example Detail" />
     <pre>ID      :{{id}}</pre>
     <pre>Loading :{{getter.state.loading}}</pre>
     <pre>Error   :{{getter.state.error}}</pre>
@@ -20,7 +20,7 @@ export default Vue.extend({
   watch: {
     id: {
       immediate: true,
-      handler(id: string) { this.getter.request(`/api/agent/${id}`); },
+      handler(id: string) { this.getter.request(`/api/example/${id}`); },
     },
   },
 });

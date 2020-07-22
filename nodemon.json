@@ -1,0 +1,7 @@
+{
+  "exec": "ts-node -P tsconfig.dev.json scripts/mock-server.ts",
+  "ignore": ["node_modules"],
+  "watch": ["./scripts", "./mock", "./src/models"],
+  "ext": "ts",
+  "inspect": true
+}

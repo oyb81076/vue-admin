@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import errorToString from './errorToString';
 
 export interface Load<K, V> {
   // 数据读取的KEY
@@ -91,22 +92,6 @@ export default function createBatchLoader<K extends string | number, V>(
   return {
     load, reload, put, putAll, remove, removeAll,
   };
-}
-function errorToString(e: unknown): string {
-  if (typeof e === 'string') { return e; }
-  if (e instanceof Error) {
-    return e.message;
-  }
-  if (typeof e === 'object') {
-    const { msg, error } = e as Record<string, unknown>;
-    if (typeof msg === 'string') { return msg; }
-    if (typeof error === 'string') { return error; }
-  }
-  try {
-    return JSON.stringify(e);
-  } catch {
-    return `non stringify error: ${String(e)}`;
-  }
 }
 
 function injectStateLoading<K extends string | number, V>(state: State<K, V>, key: K): Load<K, V> {

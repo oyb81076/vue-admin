@@ -1,0 +1,8 @@
+{
+  "exclude": ["./tsconfig.json"],
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "esModuleInterop": true
+  }
+}

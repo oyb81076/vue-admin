@@ -13,7 +13,9 @@ html, body
   flex-grow: 1
 .main-aside
   width: 201px
+  min-width: 201px
 .main-view
+  padding: 10px 20px
   flex-grow: 1
 .topbar
   $background-color: #545c64
@@ -40,6 +42,7 @@ html, body
     flex-grow: 1
   .brand
     width: 200px
+    min-width: 200px
     display: block
     text-align: center
     background-color: darken($background-color, 4)
@@ -47,3 +50,6 @@ html, body
       background-color: darken($background-color, 8)
 a
   text-decoration: none
+  color: #4579af
+  &:hover
+    text-decoration: underline

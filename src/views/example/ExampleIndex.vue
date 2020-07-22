@@ -1,5 +1,5 @@
 <template>
-  <article class="main">
+  <article>
     <el-menu
       class="main-aside"
       background-color="#545c64"
@@ -9,15 +9,13 @@
       @select="handleSelect"
       >
       <el-menu-item index="/example/data">
-        <span slot="title">info</span>
+        <span slot="title">分页</span>
       </el-menu-item>
       <el-menu-item index="/example/single">
-        <span slot="title">rank</span>
+        <span slot="title">单页</span>
       </el-menu-item>
     </el-menu>
-    <div class="main-view">
-      <router-view />
-    </div>
+    <router-view class="main-view"/>
   </article>
 </template>
 <script lang="ts">

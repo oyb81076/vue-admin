@@ -6,21 +6,21 @@ const routeConfig: RouteConfig = {
   component: () => import('./ExampleIndex.vue'),
   children: [
     { path: 'data', redirect: 'data/page' },
-    { path: 'data/page', name: 'ExampleDataPage', component: () => import('./ExampleDataPage.vue') },
-    { path: 'data/create', name: 'ExampleDataCreate', component: () => import('./ExampleDataCreate.vue') },
+    { path: 'data/page', name: 'ExampleDataPage', component: () => import('./data/ExampleDataPage.vue') },
+    { path: 'data/create', name: 'ExampleDataCreate', component: () => import('./data/ExampleDataCreate.vue') },
     {
       path: 'data/edit/:id',
       name: 'ExampleDataEdit',
       props: true,
-      component: () => import('./ExampleDataEdit.vue'),
+      component: () => import('./data/ExampleDataEdit.vue'),
     },
     {
       path: 'data/detail/:id',
       name: 'ExampleDataDetail',
       props: true,
-      component: () => import('./ExampleDataDetail.vue'),
+      component: () => import('./data/ExampleDataDetail.vue'),
     },
-    { path: 'rank', name: 'AgentRank', component: () => import('./ExampleSingle.vue') },
+    { path: 'single', name: 'ExampleSingle', component: () => import('./single/ExampleSingle.vue') },
   ],
 };
 export default routeConfig;

@@ -3,7 +3,7 @@
     <Login v-if="!authorized" />
     <template v-else>
       <Topbar />
-      <router-view />
+      <router-view class="main" />
     </template>
   </div>
 </template>

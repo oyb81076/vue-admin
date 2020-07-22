@@ -13,6 +13,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-use-before-define": "off",
+    "no-underscore-dangle": "off",
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
@@ -26,5 +27,15 @@ module.exports = {
         jest: true,
       },
     },
+    {
+      files: ['**/scripts/**/*.ts', '**/mock/**/*.ts'],
+      env: { node: true },
+      rules: {
+        "import/no-dynamic-require": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/no-extraneous-dependencies": "off",
+        "global-require": "off",
+      }
+    }
   ],
 };
