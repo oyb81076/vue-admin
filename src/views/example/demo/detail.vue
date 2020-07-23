@@ -10,18 +10,12 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import useGetJSON from '@/utils/useGetJSON';
+import useGet from '@/utils/useGet';
 
 export default Vue.extend({
   props: ['id'],
-  data() {
-    return { getter: useGetJSON() };
-  },
-  watch: {
-    id: {
-      immediate: true,
-      handler(id: string) { this.getter.request(`/api/example/${id}`); },
-    },
+  computed: {
+    getter() { return useGet(`/api/example/${this.id}`); },
   },
 });
 </script>

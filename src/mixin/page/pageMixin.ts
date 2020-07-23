@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Vue, { ComponentOptions } from 'vue';
-import useGetJSON from '@/utils/useGetJSON';
+import useGet from '@/utils/useGet';
 import { Page } from '@/models';
 import instance from '@/utils/instance';
 import { PageState } from './types';
-
+// 注意这个写法多个页面是, 前后页, 可能会公用一个 loader 的
 const DEFAULT_SIZE = 10;
 // eslint-disable-next-line import/prefer-default-export
 export const pageMixin: ComponentOptions<Vue> = {
@@ -14,7 +14,7 @@ export const pageMixin: ComponentOptions<Vue> = {
     if (!options.computed) { options.computed = {}; }
     if (options.computed.$page) { return; }
     const opts = options.page;
-    const loader = useGetJSON<Page<unknown>>();
+    const loader = useGet<Page<unknown>>();
     const reload = instance<() => void>();
     options.computed.$page = function $page(this: Vue): PageState {
       const { state } = loader;

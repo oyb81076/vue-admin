@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Queries } from '@/utils/urls';
-import { GetLoader } from '@/utils/useGetJSON';
+import { GetLoader } from '@/utils/useGet';
 import { Page } from '@/models';
 
 export interface PageState {

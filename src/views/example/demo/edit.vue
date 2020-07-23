@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import useGetJSON from '@/utils/useGetJSON';
+import useGet from '@/utils/useGet';
 import useSubmit from '@/utils/useSubmit';
 import { Example } from '@/models/example';
 import ExampleForm from './components/ExampleForm.vue';
@@ -16,7 +16,7 @@ export default Vue.extend({
   props: ['id'],
   computed: {
     getter() {
-      return useGetJSON();
+      return useGet(`/api/example/${this.id}`);
     },
     editor() {
       return useSubmit('put', `/api/example/${this.id}`);
@@ -31,12 +31,6 @@ export default Vue.extend({
       } catch (err) {
         this.$alert(err.message);
       }
-    },
-  },
-  watch: {
-    id: {
-      handler(id: string) { this.getter.request(`/api/example/${id}`); },
-      immediate: true,
     },
   },
 });

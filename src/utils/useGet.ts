@@ -1,6 +1,43 @@
 import Vue from 'vue';
 import { Queries, injectURLQuery } from './urls';
 import { getJSON } from './ajax';
+/**
+ * 每次props修改生成一个新的 loader
+ * @example
+ * Vue.extends({
+ *   props: ['id'],
+ *   template: `
+ *     <div v-loading="getter.state.loading">
+ *       {{getter.state.error}}
+ *       {{getter.state.data}}
+ *     </div>
+ *   `,
+ *   computed: {
+ *     getter(){ return useGet('/api/example/' + this.id) }
+ *   }
+ * })
+ *
+ * 使用唯一的loader
+ * @example
+ * Vue.extends({
+ *   props: ['id'],
+ *   template: `
+ *     <div v-loading="getter.state.loading">
+ *       {{getter.state.error}}
+ *       {{getter.state.data}}
+ *     </div>
+ *   `,
+ *   computed: {
+ *     getter(){ return useGet() }
+ *   },
+ *   watch: {
+ *     id: {
+ *       handler(){ this.getter.request('/api/example/' + this.id) },
+ *       immediate: true
+ *     }
+ *   }
+ * })
+ */
 
 export interface GetState<T> {
   url: string;
@@ -14,7 +51,7 @@ export interface GetLoader<T> {
   reload: () => GetState<T>;
   destroy: () => void;
 }
-export default function useGetJSON<T>(): GetLoader<T> {
+export default function useGet<T>(defaultUrl?: string, defaultQueries?: Queries): GetLoader<T> {
   const state = Vue.observable<GetState<T>>({
     url: '', loading: false, error: '', data: null,
   });
@@ -48,6 +85,9 @@ export default function useGetJSON<T>(): GetLoader<T> {
     state.error = '';
     state.data = null;
   };
+  if (defaultUrl) {
+    request(defaultUrl, defaultQueries);
+  }
   return {
     state, request, reload, destroy,
   };
