@@ -3,51 +3,6 @@
 html, body
   padding: 0
   margin: 0
-.app
-  width: 100vw
-  height: 100vh
-  display: flex
-  flex-direction: column
-.main
-  display: flex
-  flex-grow: 1
-.main-aside
-  width: 201px
-  min-width: 201px
-.main-view
-  padding: 10px 20px
-  flex-grow: 1
-.topbar
-  $background-color: #545c64
-  $height: 40px
-  background-color: $background-color
-  padding-right: 20px
-  height: $height
-  line-height: $height
-  display: flex
-  a
-    color: #FFF
-    height: $height
-    padding: 0 20px
-    display: inline-block
-    &:hover
-      background-color: darken($background-color, 4)
-  .router-link-active
-    cursor: default
-    color: #ffd04b
-    background-color: darken($background-color, 10)
-    &:hover
-      background-color: darken($background-color, 12)
-  .links
-    flex-grow: 1
-  .brand
-    width: 200px
-    min-width: 200px
-    display: block
-    text-align: center
-    background-color: darken($background-color, 4)
-    &:hover
-      background-color: darken($background-color, 8)
 a
   text-decoration: none
   color: #4579af

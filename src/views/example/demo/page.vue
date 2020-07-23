@@ -5,8 +5,9 @@
       <el-button @click="$page.reload">刷新</el-button>
       <el-button @click="$router.push('create')">创建</el-button>
       <div style="flex-grow: 1" />
-      <form @submit="handleSearch">
+      <form @submit.prevent="handleSearch">
         <el-input style="width: 200px" v-model="keywords" placeholder="请输入内容" />
+        <el-button type="primary" native-type="subbmit">搜索</el-button>
       </form>
     </div>
     <el-table :data="$page.rows" :empty-text="$page.error" >
@@ -32,7 +33,6 @@
         <template slot-scope="scope">
           <el-link type="primary" @click="$router.push(`detail/${scope.row.id}`)">详情</el-link>
           <el-link type="primary" @click="$router.push(`edit/${scope.row.id}`)">编辑</el-link>
-          <button-delete :url="'/api/example/'+ scope.row.id" @success="$page.reload" link />
           <button-request
             method="post"
             :url="`/api/example/${scope.row.id}`"
@@ -51,6 +51,7 @@
             @success="$page.reload"
             link
           >下架</button-request>
+          <button-delete :url="'/api/example/'+ scope.row.id" @success="$page.reload" link />
         </template>
       </el-table-column>
     </el-table>
@@ -65,6 +66,7 @@ import ButtonDelete from '@/components/ButtonDelete';
 import ButtonRequest from '@/components/ButtonRequest';
 import DateFormat from '@/components/DateFormat';
 import { pageMixin } from '@/mixin/page';
+import debounce from 'lodash.debounce';
 
 export default Vue.extend({
   mixins: [pageMixin],
@@ -85,28 +87,26 @@ export default Vue.extend({
     return { keywords: String(this.$route.query.keywords || '') };
   },
   methods: {
-    handleSearch(this: Vue) {
-      search(this, this.$data.keywords, 0);
+    handleSearch() {
+      this.debounceSearch.cancel();
+      if (this.$route.query.keywords !== this.keywords) {
+        this.$router.push({ query: { keywords: this.keywords } });
+      }
     },
   },
-  beforeDestroy(this: Vue & { _timer?: number }) {
-    if (this._timer) { clearTimeout(this._timer); }
+  computed: {
+    debounceSearch() {
+      return debounce(() => this.handleSearch(), 600);
+    },
+  },
+  beforeDestroy() {
+    this.debounceSearch.cancel();
   },
   watch: {
-    keywords: {
-      handler(next) {
-        search(this, next, 400);
-      },
+    keywords() {
+      this.debounceSearch();
     },
   },
 });
-function search(vm: Vue & {_timer?: number}, keywords: string, delay: number) {
-  if (vm._timer) { clearTimeout(vm._timer); }
-  // eslint-disable-next-line no-param-reassign
-  vm._timer = setTimeout(() => {
-    // eslint-disable-next-line no-param-reassign
-    vm._timer = 0;
-    vm.$router.push({ query: { keywords } });
-  }, delay);
-}
+
 </script>

@@ -1,24 +1,20 @@
 <template>
-  <div class="app">
-    <Login v-if="!authorized" />
-    <template v-else>
-      <Topbar />
-      <router-view class="main" />
-    </template>
-  </div>
+  <Login v-if="!authorized" />
+  <Layout v-else @logout="logout" logo="el-icon-platform-eleme" brand="Logo"></Layout>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import Topbar from './views/layout/Topbar.vue';
 import Login from './components/Login';
-import { state } from './store/authStore';
+import Layout from './components/Layout';
+import { state, logout } from './store/authStore';
 
 export default Vue.extend({
-  components: { Topbar, Login },
+  components: { Login, Layout },
   computed: {
-    authorized() {
-      return state.id !== '';
-    },
+    authorized: () => state.id !== '',
+  },
+  methods: {
+    logout,
   },
 });
 </script>

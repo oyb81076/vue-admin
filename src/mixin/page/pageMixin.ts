@@ -38,6 +38,9 @@ export const pageMixin: ComponentOptions<Vue> = {
       };
     };
   },
+  beforeDestroy(this: Vue) {
+    this.$page.loader.destroy();
+  },
   watch: {
     '$route.query': {
       handler(this: Vue, qs) {

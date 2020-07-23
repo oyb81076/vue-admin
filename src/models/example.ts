@@ -26,14 +26,12 @@ export const exampleTypeNames: Record<ExampleType, string> = {
   PROTECTED: '保护',
 };
 
-export function createRules(): Partial<Record<keyof Example, Validator[] | Validator>> {
-  return {
-    type: { type: 'enum', enum: Object.keys(ExampleType), required: true },
-    name: { type: 'string' },
-    managerId: { type: 'string', pattern: /^\d+$/ },
-    created: { type: 'date' },
-    price: { type: 'float' },
-    quantity: { type: 'integer' },
-    disabled: { type: 'boolean' },
-  };
-}
+export const rules: Partial<Record<keyof Example, Validator[] | Validator>> = {
+  type: { type: 'enum', enum: Object.keys(ExampleType), required: true },
+  name: { type: 'string' },
+  managerId: { type: 'string', pattern: /^\d+$/ },
+  created: { type: 'date' },
+  price: { type: 'float' },
+  quantity: { type: 'integer' },
+  disabled: { type: 'boolean' },
+};

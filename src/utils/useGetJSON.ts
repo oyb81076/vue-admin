@@ -12,8 +12,9 @@ export interface GetLoader<T> {
   state: GetState<T>;
   request: (url: string, query?: Queries, force?: boolean) => GetState<T>;
   reload: () => GetState<T>;
+  destroy: () => void;
 }
-export default function useGetJSON<T>() {
+export default function useGetJSON<T>(): GetLoader<T> {
   const state = Vue.observable<GetState<T>>({
     url: '', loading: false, error: '', data: null,
   });
@@ -41,5 +42,13 @@ export default function useGetJSON<T>() {
     state.url = nextURL;
     return reload();
   };
-  return { state, request, reload };
+  const destroy = () => {
+    state.url = '';
+    state.loading = false;
+    state.error = '';
+    state.data = null;
+  };
+  return {
+    state, request, reload, destroy,
+  };
 }

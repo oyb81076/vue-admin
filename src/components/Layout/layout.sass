@@ -1,0 +1,99 @@
+$background-color: #545c64
+$topbar-height: 40px
+$link-active: #ffd04b
+$aside-width: 200px
+$aside-width-collapsed: 50px
+$aside-line-height: 50px
+.layout-app
+  width: 100vw
+  height: 100vh
+  display: flex
+  padding-top: $topbar-height
+  padding-left: $aside-width
+.main
+  display: flex
+  flex-grow: 1
+.layout-aside
+  position: fixed
+  z-index: 1000
+  left: 0
+  bottom: 0
+  top: $topbar-height
+  width: $aside-width
+  background-color: $background-color
+.layout-topbar
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  z-index: 1000
+  $height: $topbar-height
+  background-color: $background-color
+  padding-right: 20px
+  height: $height
+  line-height: $height
+  display: flex
+  .brand
+    width: $aside-width
+.layout-app.collapsed
+  padding-left: $aside-width-collapsed
+  .layout-aside
+    width: $aside-width-collapsed
+    .icon
+      display: block
+      text-align: center
+      line-height: $aside-line-height
+  .layout-topbar .brand
+    width: $aside-width-collapsed
+.layout-app.no-aside
+  padding-left: 0
+.layout-main
+  padding: 10px 20px
+  flex-grow: 1
+
+.layout-topbar
+  a
+    height: $topbar-height
+    padding: 0 20px
+    display: inline-block
+  .links
+    flex-grow: 1
+  .brand
+    display: block
+    text-align: center
+    color: #FFF
+    background-color: darken($background-color, 20)
+.layout-aside
+  line-height: $aside-line-height
+  .icon
+    display: inline-block
+    width: $aside-width-collapsed
+    text-align: center
+  a
+    display: block
+    height: $aside-line-height
+  footer
+    width: 100%
+    display: block
+    text-align: center
+    color: #FFF
+    position: absolute
+    bottom: 0
+    background-color: darken($background-color, 4)
+    height: 30px
+    line-height: 30px
+    cursor: pointer
+    &:hover
+      background-color: darken($background-color, 8)
+.layout-topbar, .layout-aside
+  a
+    color: #FFF
+    &:hover
+      background-color: darken($background-color, 4)
+      text-decoration: none
+  .router-link-active
+    cursor: default
+    color: $link-active
+    background-color: darken($background-color, 10)
+    &:hover
+      background-color: darken($background-color, 12)

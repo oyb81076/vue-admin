@@ -10,11 +10,6 @@ const mockTS = files.filter((x) => x.endsWith('.mock.ts'));
 const mocks = mockTS.map((x) => require(`../mock/${x}`).default);
 
 const app = express();
-app.use((req, res, next) => {
-  console.log(req.method);
-  next();
-});
-app.patch('/api/test', (req, res) => { console.log('hit'); res.json({}); });
 mocks.forEach((routes: Record<string, Function>) => {
   Object.entries(routes).forEach(([route, handler]) => {
     const [method, path, ...query] = route.split(/\s+/);
@@ -44,7 +39,7 @@ app.use((req, res, next) => {
     res.send({ code: 'URL_NOT_FOUND', message: `URL ${req.url} NOT EXITS` });
   }
 });
-app.use(express.static(join(__dirname, './public')));
+app.use(express.static(join(__dirname, '../public')));
 app.listen(4000, () => {
   console.log('server start at 4000');
 });
