@@ -49,7 +49,6 @@ export interface GetLoader<T> {
   state: GetState<T>;
   request: (url: string, query?: Queries, force?: boolean) => GetState<T>;
   reload: () => GetState<T>;
-  destroy: () => void;
 }
 export default function useGet<T>(defaultUrl?: string, defaultQueries?: Queries): GetLoader<T> {
   const state = Vue.observable<GetState<T>>({
@@ -79,16 +78,8 @@ export default function useGet<T>(defaultUrl?: string, defaultQueries?: Queries)
     state.url = nextURL;
     return reload();
   };
-  const destroy = () => {
-    state.url = '';
-    state.loading = false;
-    state.error = '';
-    state.data = null;
-  };
   if (defaultUrl) {
     request(defaultUrl, defaultQueries);
   }
-  return {
-    state, request, reload, destroy,
-  };
+  return Object.freeze({ state, request, reload });
 }

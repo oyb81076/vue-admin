@@ -35,7 +35,6 @@ export interface SubmitLoader<Req, Res> {
   submit: (
     payload?: Req,
   ) => Promise<Res>;
-  destroy: () => void;
 }
 export default function useSubmit<Req = unknown, Res = Req>(
   method: 'put' | 'post' | 'delete', url: string, credentials = true,
@@ -65,11 +64,6 @@ export default function useSubmit<Req = unknown, Res = Req>(
       });
     });
   };
-  const destroy = () => {
-    state.tx = 0;
-    state.loading = false;
-    state.error = '';
-    state.data = null;
-  };
-  return { state, submit, destroy };
+  // 防止在 data 中被 ob
+  return Object.freeze({ state, submit });
 }

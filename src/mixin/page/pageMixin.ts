@@ -1,58 +1,63 @@
+/* eslint-disable vue/no-reserved-keys */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Vue, { ComponentOptions } from 'vue';
-import useGet from '@/utils/useGet';
+import useGet, { GetLoader } from '@/utils/useGet';
 import { Page } from '@/models';
-import instance from '@/utils/instance';
+import { Queries } from '@/utils/urls';
 import { PageState } from './types';
+
 // 注意这个写法多个页面是, 前后页, 可能会公用一个 loader 的
-const DEFAULT_SIZE = 10;
+interface Data {
+  _url: string;
+  _defaultSize: number;
+  _loader: GetLoader<Page<unknown>>;
+  _reload: () => void;
+  _query?: (this: Vue, queries: Record<string, string | (string | null)[]>) => Queries;
+}
 // eslint-disable-next-line import/prefer-default-export
 export const pageMixin: ComponentOptions<Vue> = {
-  beforeCreate() {
-    const options = this.$options;
-    if (!options.page) { return; }
-    if (!options.computed) { options.computed = {}; }
-    if (options.computed.$page) { return; }
-    const opts = options.page;
-    const loader = useGet<Page<unknown>>();
-    const reload = instance<() => void>();
-    options.computed.$page = function $page(this: Vue): PageState {
-      const { state } = loader;
-      let total = state.data && state.data.total;
-      const rows = state.data && state.data.rows;
-      const size = valueOf(this.$route.query.size, opts.defaultSize || DEFAULT_SIZE);
-      const index = valueOf(this.$route.query.index, 0);
-      if (!this.$route.query.total && state.loading) {
-        // 新的query查询会去掉total缓存
-        total = null;
-      }
+  data(): Data {
+    const options = this.$options.page;
+    return Object.freeze({
+      _loader: useGet<Page<unknown>>(),
+      _reload: reload.bind(this),
+      _url: options?.url || '',
+      _defaultSize: options?.defaultSize || 10,
+      _query: options?.query,
+    });
+  },
+  computed: {
+    $page(this: Vue & Data): PageState {
+      const { _loader, _defaultSize, _reload } = this.$data as Data;
+      const { query } = this.$route;
+      const { data, loading, error } = _loader.state;
+      const total = !data || (!query.total && loading) ? null : data.total;
+      const rows = data && data.rows;
+      const size = valueOf(query.size, _defaultSize);
+      const index = valueOf(query.index, 0);
       return {
-        loader,
-        loading: state.loading,
-        error: state.error,
+        loading,
+        error,
         total,
         rows,
         size,
         current: index + 1,
-        reload: reload.instanceOf(() => pageReload.bind(this)),
+        reload: _reload,
       };
-    };
-  },
-  beforeDestroy(this: Vue) {
-    this.$page.loader.destroy();
+    },
   },
   watch: {
     '$route.query': {
       handler(this: Vue, qs) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const { query, url } = this.$options.page!;
+        const { _url, _loader, _query } = this.$data as Data;
+        if (!_url) { return; }
         const queries = {
           size: this.$page.size,
           index: this.$page.current - 1,
           total: qs.total,
-          ...(query ? query.call(this, qs) : qs),
+          ...(_query ? _query.call(this, qs) : qs),
         };
-        this.$page.loader.request(url, queries);
+        _loader.request(_url, queries);
       },
       immediate: true,
     },
@@ -65,19 +70,20 @@ function valueOf(v: unknown, defaultValue: number) {
   const val = parseInt(single, 10);
   return Number.isNaN(val) ? defaultValue : val;
 }
-function pageReload(this: Vue) {
-  const opts = this.$options.page;
-  if (!opts) { throw new Error('page options not defined'); }
-  const { url, query, defaultSize } = opts;
+const reload = function pageReload(this: Vue) {
+  const {
+    _url, _query, _defaultSize, _loader,
+  } = this.$data as Data;
+  if (!_url) { return; }
   const { $route } = this;
   const qs = $route.query;
-  const size = valueOf($route.query.size, defaultSize || DEFAULT_SIZE);
+  const size = valueOf($route.query.size, _defaultSize);
   const index = valueOf($route.query.index, 0);
   const queries = {
     size,
     index,
-    ...(query ? query.call(this, qs) : qs),
+    ...(_query ? _query.call(this, qs) : qs),
     total: null,
   };
-  this.$page.loader.request(url, queries, true);
-}
+  _loader.request(_url, queries, true);
+};
