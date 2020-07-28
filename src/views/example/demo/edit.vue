@@ -33,5 +33,12 @@ export default Vue.extend({
       }
     },
   },
+  watch: {
+    'getter.state': function fn(next) {
+      if (!next.loading && next.error) {
+        this.$alert(next.error);
+      }
+    },
+  },
 });
 </script>
