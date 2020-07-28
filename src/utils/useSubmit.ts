@@ -18,7 +18,7 @@ import { request } from './ajax';
  *     handleSubmit(){
  *       this.form.submit(this.state)
  *         .then(()=> this.$router.back())
- *         .catch((err)=> this.$alert(err.message))
+ *         .catch(asyncError)
  *     }
  *   }
  * })

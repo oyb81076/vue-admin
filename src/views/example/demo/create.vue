@@ -9,6 +9,7 @@ import Vue from 'vue';
 import { Example } from '@/models/example';
 import useSubmit from '@/utils/useSubmit';
 import ExampleForm from './components/ExampleForm.vue';
+import { asyncError, asyncAlert } from '../../../utils/async';
 
 export default Vue.extend({
   components: { ExampleForm },
@@ -18,14 +19,11 @@ export default Vue.extend({
     },
   },
   methods: {
-    async handleSubmit(value: Example) {
-      try {
-        await this.creator.submit(value);
-        await this.$alert('保存成功');
-        this.$router.back();
-      } catch (err) {
-        this.$alert(err.message);
-      }
+    handleSubmit(value: Example) {
+      this.creator.submit(value)
+        .then(() => asyncAlert('保存成功'))
+        .then(() => this.$router.back())
+        .catch(asyncError);
     },
   },
 });

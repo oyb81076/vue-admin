@@ -11,6 +11,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { request } from '../../utils/ajax';
+import { asyncError, asyncConfirm } from '../../utils/async';
 
 export default Vue.extend({
   props: {
@@ -31,7 +32,7 @@ export default Vue.extend({
     async handleClick() {
       try {
         const msg = this.confirmMessage;
-        const ok = !msg ? true : await this.$confirm(msg).then(() => true, () => false);
+        const ok = await asyncConfirm(msg);
         if (!ok) { return; }
         this.loading = true;
         const res = await request(this.method, this.url, this.payload, this.credentials);
@@ -45,7 +46,7 @@ export default Vue.extend({
         this.$emit('success', res);
       } catch (e) {
         this.loading = false;
-        this.$alert(e.message);
+        asyncError(e);
       }
     },
   },
