@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import debounce from 'lodash.debounce';
+import { debounce } from 'lodash';
 
 export default Vue.extend({
   data() {

@@ -22,9 +22,9 @@ const routeConfig: RouteConfig = {
       ],
     },
     {
-      path: 'single',
+      path: 'single/index',
       meta: { title: '单页', icon: 'el-icon-video-camera-solid' },
-      component: () => import('@/views/example/single.vue'),
+      component: () => import('@/views/example/single/index.vue'),
     },
     {
       path: 'debounce',

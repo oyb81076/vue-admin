@@ -66,7 +66,7 @@ import ButtonDelete from '@/components/ButtonDelete';
 import ButtonRequest from '@/components/ButtonRequest';
 import DateFormat from '@/components/DateFormat';
 import { pageMixin } from '@/mixin/page';
-import debounce from 'lodash.debounce';
+import { debounce } from 'lodash';
 
 export default Vue.extend({
   mixins: [pageMixin],
